@@ -309,8 +309,16 @@ function sortCitiesArray(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+  const count = array.length;
+
+  for (let key, i = 0; i < count; i += 1) {
+    key = keySelector(array[i]);
+    if (map.has(key)) map.get(key).push(valueSelector(array[i]));
+    else map.set(key, [valueSelector(array[i])]);
+  }
+  return map;
 }
 
 /**
@@ -368,33 +376,31 @@ function group(/* array, keySelector, valueSelector */) {
  */
 
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    this.value = value;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.value = `#${value}`;
   },
 
-  class(/* value */) {
-    throw new Error('Not implemented');
+  class(value) {
+    this.value = `.${value}`;
   },
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
+  attr(value) {
+    this.value = `[${value}]`;
   },
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
+  pseudoClass(value) {
+    this.value = `:${value}`;
   },
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
+  pseudoElement(value) {
+    this.value = `::${value}`;
   },
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
-  },
+  combine(/* selector1, combinator, selector2 */) {},
 };
 
 module.exports = {
